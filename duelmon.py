@@ -154,8 +154,8 @@ def battle(player, cpu):
         # -------------------------------
         # Player turn
         # -------------------------------
-        print("--------------- PLAYER TURN ----------------")
         if move_choice == "1":
+            print("--------------- PLAYER TURN ----------------")
             if p_m1_pp <= 0:
                 print("No PP left for that move!\n")
                 continue
@@ -170,6 +170,7 @@ def battle(player, cpu):
                 print("It's not very effective...\n")
 
         elif move_choice == "2":
+            print("--------------- PLAYER TURN ----------------")
             if p_m2_pp <= 0:
                 print("No PP left for that move!\n")
                 continue
@@ -256,7 +257,7 @@ def main():
                 print("============================================\n")
                 return
             else:
-                print("Invalid input! Please type 'yes' or 'no' only.")
+                print("Invalid input! Please type 'yes' or 'no' only.\n")
 
 # ---------------------------------------
 # Run the game
