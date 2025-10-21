@@ -30,7 +30,7 @@ def choose_monster():
         if choice == "1":
             p_name = "Charmander"
             p_type = "Fire"
-            p_hp = 39
+            p_hp = 390
             p_attack = 52
             p_defense = 43
             p_speed = 65
@@ -47,7 +47,7 @@ def choose_monster():
         elif choice == "2":
             p_name = "Squirtle"
             p_type = "Water"
-            p_hp = 44
+            p_hp = 440
             p_attack = 48
             p_defense = 65
             p_speed = 43
@@ -64,7 +64,7 @@ def choose_monster():
         elif choice == "3":
             p_name = "Bulbasaur"
             p_type = "Grass"
-            p_hp = 45
+            p_hp = 450
             p_attack = 49
             p_defense = 49
             p_speed = 45
@@ -87,20 +87,24 @@ def choose_monster():
 # ---------------------------------------
 # CPU Random Monster Select
 # ---------------------------------------
+
+# CPU randomly select monster using random.choice()
 def cpu_choose():
     cpu_list = ["Charmander", "Squirtle", "Bulbasaur"]
     choice = random.choice(cpu_list)
 
     if choice == "Charmander":
-        return ["Charmander", "Fire", 39, 52, 43, 65, "Scratch", "Normal", 40, 35, "Ember", "Fire", 40, 25]
+        return ["Charmander", "Fire", 390, 52, 43, 65, "Scratch", "Normal", 40, 35, "Ember", "Fire", 40, 25]
     elif choice == "Squirtle":
-        return ["Squirtle", "Water", 44, 48, 65, 43, "Tackle", "Normal", 40, 35, "Water Gun", "Water", 40, 25]
+        return ["Squirtle", "Water", 440, 48, 65, 43, "Tackle", "Normal", 40, 35, "Water Gun", "Water", 40, 25]
     else:
-        return ["Bulbasaur", "Grass", 45, 49, 49, 45, "Tackle", "Normal", 40, 35, "Vine Whip", "Grass", 45, 25]
+        return ["Bulbasaur", "Grass", 450, 49, 49, 45, "Tackle", "Normal", 40, 35, "Vine Whip", "Grass", 45, 25]
 
 # ---------------------------------------
 # Type Effectiveness
 # ---------------------------------------
+
+# parang bato bato pick to
 def type_effect(move_type, target_type):
     if move_type == "Fire" and target_type == "Grass":
         return 2
@@ -120,6 +124,7 @@ def type_effect(move_type, target_type):
 # ---------------------------------------
 # Damage Calculation
 # ---------------------------------------
+
 def calculate_damage(attack, defense, power, multiplier):
     base = ((attack / defense) * power) / 5 + 2
     total = int(base * multiplier)
@@ -130,24 +135,21 @@ def calculate_damage(attack, defense, power, multiplier):
 # ---------------------------------------
 # Battle
 # ---------------------------------------
+
 def battle(player, cpu):
     print("\nYou chose " + player[0] + "!")
     print("CPU chose " + cpu[0] + "!\n")
     
-    # Unpack player
-    p_name, p_type, p_hp, p_attack, p_defense, p_speed, \
-    p_m1_name, p_m1_type, p_m1_power, p_m1_pp, \
-    p_m2_name, p_m2_type, p_m2_power, p_m2_pp = player
+    # Player Stats ==> Variable
+    p_name, p_type, p_hp, p_attack, p_defense, p_speed, p_m1_name, p_m1_type, p_m1_power, p_m1_pp, p_m2_name, p_m2_type, p_m2_power, p_m2_pp = player
 
-    # Unpack CPU
-    c_name, c_type, c_hp, c_attack, c_defense, c_speed, \
-    c_m1_name, c_m1_type, c_m1_power, c_m1_pp, \
-    c_m2_name, c_m2_type, c_m2_power, c_m2_pp = cpu
+    # CPU Stats ==> Variable
+    c_name, c_type, c_hp, c_attack, c_defense, c_speed, c_m1_name, c_m1_type, c_m1_power, c_m1_pp, c_m2_name, c_m2_type, c_m2_power, c_m2_pp = cpu
 
     while p_hp > 0 and c_hp > 0:
         print(f"{p_name} (You) HP: {p_hp} | {c_name} (CPU) HP: {c_hp}")
-        print("[1]", p_m1_name, "-", p_m1_type, "Power:", p_m1_power, "PP:", p_m1_pp)
-        print("[2]", p_m2_name, "-", p_m2_type, "Power:", p_m2_power, "PP:", p_m2_pp)
+        print(f"[1] {p_m1_name} - {p_m1_type} Power: {p_m1_power} PP: {p_m1_pp}")
+        print(f"[2] {p_m2_name} - {p_m2_type} Power: {p_m2_power} PP: {p_m2_pp}")
 
         move_choice = input("Choose move (1 or 2): ").strip()
 
@@ -155,9 +157,9 @@ def battle(player, cpu):
         # Player turn
         # -------------------------------
         if move_choice == "1":
-            print("--------------- PLAYER TURN ----------------")
+            print("\n--------------- PLAYER TURN ----------------")
             if p_m1_pp <= 0:
-                print("No PP left for that move!\n")
+                print("\nNo PP left for that move!\n")
                 continue
             p_m1_pp -= 1
             multiplier = type_effect(p_m1_type, c_type)
@@ -170,7 +172,7 @@ def battle(player, cpu):
                 print("It's not very effective...\n")
 
         elif move_choice == "2":
-            print("--------------- PLAYER TURN ----------------")
+            print("\n--------------- PLAYER TURN ----------------")
             if p_m2_pp <= 0:
                 print("No PP left for that move!\n")
                 continue
@@ -189,13 +191,15 @@ def battle(player, cpu):
             continue
 
         if c_hp <= 0:
-            print(f"{c_name} fainted! You win!\n")
+            print("============================================")
+            print(f"        {c_name} fainted! You win!")
+            print("============================================\n")
             break
 
         # -------------------------------
         # CPU turn
         # -------------------------------
-        print("----------------- CPU TURN -----------------")
+        print("----------------- CPU TURN -----------------\n")
         cpu_moves = []
         if c_m1_pp > 0:
             cpu_moves.append("1")
@@ -230,7 +234,9 @@ def battle(player, cpu):
                 print("It's not very effective...\n")
 
         if p_hp <= 0:
-            print(f"{p_name} fainted! You lost!\n")
+            print("============================================")
+            print(f"        {p_name} fainted! You lost!")
+            print("============================================\n")
             break
 
 # ---------------------------------------
