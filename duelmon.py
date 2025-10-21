@@ -30,7 +30,7 @@ def choose_monster():
         if choice == "1":
             p_name = "Charmander"
             p_type = "Fire"
-            p_hp = 390
+            p_hp = 39
             p_attack = 52
             p_defense = 43
             p_speed = 65
@@ -47,7 +47,7 @@ def choose_monster():
         elif choice == "2":
             p_name = "Squirtle"
             p_type = "Water"
-            p_hp = 440
+            p_hp = 44
             p_attack = 48
             p_defense = 65
             p_speed = 43
@@ -64,7 +64,7 @@ def choose_monster():
         elif choice == "3":
             p_name = "Bulbasaur"
             p_type = "Grass"
-            p_hp = 450
+            p_hp = 45
             p_attack = 49
             p_defense = 49
             p_speed = 45
@@ -94,11 +94,11 @@ def cpu_choose():
     choice = random.choice(cpu_list)
 
     if choice == "Charmander":
-        return ["Charmander", "Fire", 390, 52, 43, 65, "Scratch", "Normal", 40, 35, "Ember", "Fire", 40, 25]
+        return ["Charmander", "Fire", 39, 52, 43, 65, "Scratch", "Normal", 40, 35, "Ember", "Fire", 40, 25]
     elif choice == "Squirtle":
-        return ["Squirtle", "Water", 440, 48, 65, 43, "Tackle", "Normal", 40, 35, "Water Gun", "Water", 40, 25]
+        return ["Squirtle", "Water", 44, 48, 65, 43, "Tackle", "Normal", 40, 35, "Water Gun", "Water", 40, 25]
     else:
-        return ["Bulbasaur", "Grass", 450, 49, 49, 45, "Tackle", "Normal", 40, 35, "Vine Whip", "Grass", 45, 25]
+        return ["Bulbasaur", "Grass", 45, 49, 49, 45, "Tackle", "Normal", 40, 35, "Vine Whip", "Grass", 45, 25]
 
 # ---------------------------------------
 # Type Effectiveness
@@ -269,3 +269,4 @@ def main():
 # Run the game
 # ---------------------------------------
 main()
+
