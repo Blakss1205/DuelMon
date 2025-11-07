@@ -54,7 +54,7 @@ def choose_monster():
             ) = data[choice]
             break
         else:
-            print("Invalid choice! Please type 1, 2, or 3.\n")
+            print("\nInvalid choice! Please type 1, 2, or 3.\n")
     
     player = [
         p_name, p_type, p_hp, p_attack, p_defense, p_speed,
@@ -179,7 +179,7 @@ def battle(player, cpu):
                     print("It's not very effective...\n")
 
             else:
-                print("Invalid choice!\n")
+                print("\nInvalid choice!\n")
                 continue
 
             if c_hp <= 0:
@@ -269,7 +269,7 @@ def main():
                 print("============================================\n")
                 return
             else:
-                print("Invalid input! Please type 'yes' or 'no' only.\n")
+                print("\nInvalid input! Please type 'yes' or 'no' only.\n")
 
 # ---------------------------------------
 # Run the game
