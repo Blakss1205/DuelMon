@@ -16,7 +16,7 @@
 Duelmon is a **turn-based monster battle simulator** played entirely through the console. Players choose a starter Duelmon and take turns battling computer-controlled opponents. Each Duelmon has unique moves with varying power, health points, and type effectiveness. The goal is to defeat all opposing Duelmon using strategy and smart move selection until one team is knocked out.
 
 ## Member Contributions
-Ilumin, Mark Benedict D.      
-Evasco, Christian John G.      
-Gicalao, Jethro Cedric T.      
-Gapido, Marcus Cedrick Pm      
+Ilumin, Mark Benedict D.
+Evasco, Christian John G.
+Gicalao, Jethro Cedric T.
+Gapido, Marcus Cedrick P.
