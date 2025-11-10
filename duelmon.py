@@ -9,17 +9,23 @@ def clear_screen():
 # Instruction #
 # ----------- #
 def show_instructions():
-    print("==============================================")
-    print("              WELCOME TO DUELMON!             ")
-    print("==============================================")
+    print("__        _______ _     ____ ___  __  __ _____    _____ ___  ")
+    print("\ \      / / ____| |   / ___/ _ \|  \/  | ____|  |_   _/ _ \ ")
+    print(" \ \ /\ / /|  _| | |  | |  | | | | |\/| |  _|      | || | | |")
+    print("  \ V  V / | |___| |__| |__| |_| | |  | | |___     | || |_| |")
+    print("   \_/\_/  |_____|_____\____\___/|_|  |_|_____|    |_| \___/ ")
+    print("          ____  _   _ _____ _     __  __  ___  _   _ ")
+    print("         |  _ \| | | | ____| |   |  \/  |/ _ \| \ | |")
+    print("         | | | | | | |  _| | |   | |\/| | | | |  \| |")
+    print("         | |_| | |_| | |___| |___| |  | | |_| | |\  |")
+    print("         |____/ \___/|_____|_____|_|  |_|\___/|_| \_|\n")  
     time.sleep(1)
     print("HOW TO PLAY:")
     print("- Choose your starter Monster.")
     print("- Each Monster has unique stats and moves.")
     print("- Take turns attacking until one faints.")
     print("- Win by reducing your opponent’s HP to 0.")
-    print("- Type only the valid numbers shown on screen.")
-    print("==============================================\n")
+    print("- Type only the valid numbers shown on screen.\n")
 
 # -------------- #
 # Monster Select #
@@ -33,13 +39,13 @@ def choose_monster():
 
     # these are the stats of monsters
     data = {
-        "1": ["Charmander", "Fire", 39, 52, 43, 65,
+        "1": ["Charmander", "Fire", 39, 52, 43, 40,
               "Scratch", "Normal", 40, 35,
               "Ember", "Fire", 40, 25],
-        "2": ["Squirtle", "Water", 44, 48, 65, 43,
+        "2": ["Squirtle", "Water", 44, 48, 65, 40,
               "Tackle", "Normal", 40, 35,
               "Water Gun", "Water", 40, 25],
-        "3": ["Bulbasaur", "Grass", 45, 49, 49, 45,
+        "3": ["Bulbasaur", "Grass", 45, 49, 49, 40,
               "Tackle", "Normal", 40, 35,
               "Vine Whip", "Grass", 45, 25],
     }
@@ -74,11 +80,11 @@ def cpu_choose():
     choice = random.choice(cpu_list)
 
     if choice == "Charmander":
-        return ["Charmander", "Fire", 39, 52, 43, 65, "Scratch", "Normal", 40, 35, "Ember", "Fire", 40, 25]
+        return ["Charmander", "Fire", 39, 52, 43, 40, "Scratch", "Normal", 40, 35, "Ember", "Fire", 40, 25]
     elif choice == "Squirtle":
-        return ["Squirtle", "Water", 44, 48, 65, 43, "Tackle", "Normal", 40, 35, "Water Gun", "Water", 40, 25]
+        return ["Squirtle", "Water", 44, 48, 65, 40, "Tackle", "Normal", 40, 35, "Water Gun", "Water", 40, 25]
     else:
-        return ["Bulbasaur", "Grass", 45, 49, 49, 45, "Tackle", "Normal", 40, 35, "Vine Whip", "Grass", 45, 25]
+        return ["Bulbasaur", "Grass", 45, 49, 49, 40, "Tackle", "Normal", 40, 35, "Vine Whip", "Grass", 45, 25]
 
 # ---------------------------------------
 # Type Effectiveness
@@ -113,14 +119,26 @@ def calculate_damage(attack, defense, power, multiplier):
     return total
 
 # ---------------------------------------
+# Dodge Mechanic
+# ---------------------------------------
+
+def dodgechance(speed):
+    decider = random.randint(1, 100)  # Random number between 1 and 100
+    if decider <= speed:
+        return True
+    else:
+        return False
+
+
+# ---------------------------------------
 # Battle
 # ---------------------------------------
 
 def battle(player, cpu):
     print("\nYou chose " + player[0] + "!")
-    time.sleep(1)
+    time.sleep(0.5)
     print("CPU chose " + cpu[0] + "!\n")
-    time.sleep(1)
+    time.sleep(0.5)
 
     # Player Stats to Variable
     p_name, p_type, p_hp, p_attack, p_defense, p_speed, p_m1_name, p_m1_type, p_m1_power, p_m1_pp, p_m2_name, p_m2_type, p_m2_power, p_m2_pp = player
@@ -138,7 +156,7 @@ def battle(player, cpu):
 
         # Turn-based combat
         if turn_order == "player":
-            time.sleep(1)
+            time.sleep(0.5)
             print("---------------- PLAYER TURN -----------------\n")
             print(f"[1] {p_m1_name} - {p_m1_type} Power: {p_m1_power} PP: {p_m1_pp}")
             print(f"[2] {p_m2_name} - {p_m2_type} Power: {p_m2_power} PP: {p_m2_pp}\n")
@@ -151,16 +169,19 @@ def battle(player, cpu):
                 p_m1_pp -= 1
                 multiplier = type_effect(p_m1_type, c_type)
                 dmg = calculate_damage(p_attack, c_defense, p_m1_power, multiplier)
-                c_hp -= dmg
-                print(f"\n{p_name} (You) used {p_m1_name} and dealt {dmg} damage!\n")
-                if multiplier > 1:
-                    time.sleep(1)
-                    print("It's super effective!\n")
-                    time.sleep(1)
-                elif multiplier < 1:
-                    time.sleep(1)
-                    print("It's not very effective...\n")
-                    time.sleep(1)
+                if dodgechance(c_speed):
+                    print(f"\n{c_name} (CPU) dodged the attack!\n")
+                    dmg = 0
+                else:
+                    c_hp -= dmg
+                    print(f"\n{p_name} (You) used {p_m1_name} and dealt {dmg} damage!\n")
+                    if multiplier > 1:
+                        time.sleep(0.5)
+                        print("It's super effective!\n")
+                        time.sleep(0.5)
+                    elif multiplier < 1:
+                        time.sleep(0.5)
+                        print("It's not very effective...\n")
 
             elif move_choice == "2":
                 if p_m2_pp <= 0:
@@ -169,19 +190,23 @@ def battle(player, cpu):
                 p_m2_pp -= 1
                 multiplier = type_effect(p_m2_type, c_type)
                 dmg = calculate_damage(p_attack, c_defense, p_m2_power, multiplier)
-                c_hp -= dmg
-                print(f"\n{p_name} (You) used {p_m2_name} and dealt {dmg} damage!\n")
-                if multiplier > 1:
-                    time.sleep(1)
-                    print("It's super effective!\n")
-                elif multiplier < 1:
-                    time.sleep(1)
-                    print("It's not very effective...\n")
+                if dodgechance(c_speed):
+                    print(f"\n{c_name} (CPU) dodged the attack!\n")
+                    dmg = 0
+                else:
+                    c_hp -= dmg
+                    print(f"\n{p_name} (You) used {p_m2_name} and dealt {dmg} damage!\n")
+                    if multiplier > 1:
+                        time.sleep(1)
+                        print("It's super effective!\n")
+                    elif multiplier < 1:
+                        time.sleep(1)
+                        print("It's not very effective...\n")
 
             else:
                 print("\nInvalid choice!\n")
                 continue
-
+    
             if c_hp <= 0:
                 print("==============================================")
                 print(f"      {c_name} (CPU) fainted! You win!       ")
@@ -210,27 +235,35 @@ def battle(player, cpu):
                 c_m1_pp -= 1
                 multiplier = type_effect(c_m1_type, p_type)
                 dmg = calculate_damage(c_attack, p_defense, c_m1_power, multiplier)
-                p_hp -= dmg
-                print(f"{c_name} (CPU) used {c_m1_name} and dealt {dmg} damage!\n")
-                if multiplier > 1:
-                    time.sleep(1)
-                    print("It's super effective!\n")
-                elif multiplier < 1:
-                    time.sleep(1)
-                    print("It's not very effective...\n")
+                if dodgechance(p_speed):
+                    print(f"{p_name} (You) dodged the attack!\n")
+                    dmg = 0
+                else:
+                    p_hp -= dmg
+                    print(f"{c_name} (CPU) used {c_m1_name} and dealt {dmg} damage!\n")
+                    if multiplier > 1:
+                        time.sleep(1)
+                        print("It's super effective!\n")
+                    elif multiplier < 1:
+                        time.sleep(1)
+                        print("It's not very effective...\n")
 
             elif cpu_move == "2":
                 c_m2_pp -= 1
                 multiplier = type_effect(c_m2_type, p_type)
                 dmg = calculate_damage(c_attack, p_defense, c_m2_power, multiplier)
-                p_hp -= dmg
-                print(f"{c_name} (CPU) used {c_m2_name} and dealt {dmg} damage!\n")
-                if multiplier > 1:
-                    time.sleep(1)
-                    print("It's super effective!\n")
-                elif multiplier < 1:
-                    time.sleep(1)
-                    print("It's not very effective...\n")
+                if dodgechance(p_speed):
+                    print(f"{p_name} (You) dodged the attack!\n")
+                    dmg = 0
+                else:
+                    p_hp -= dmg
+                    print(f"{c_name} (CPU) used {c_m2_name} and dealt {dmg} damage!\n")
+                    if multiplier > 1:
+                        time.sleep(1)
+                        print("It's super effective!\n")
+                    elif multiplier < 1:
+                        time.sleep(1)
+                        print("It's not very effective...\n")
 
             if p_hp <= 0:
                 print("==============================================")
@@ -264,9 +297,16 @@ def main():
                 break
             elif again == "no":
                 clear_screen()
-                print("\n============================================")
-                print("           Thank You For Playing!")
-                print("============================================\n")
+                print("           ________  _____    _   ____ __ __  ______  __  __")
+                print("          /_  __/ / / /   |  / | / / //_/ \ \/ / __ \/ / / /")
+                print("           / / / /_/ / /| | /  |/ / ,<     \  / / / / / / / ")
+                print("          / / / __  / ___ |/ /|  / /| |    / / /_/ / /_/ /  ")
+                print("         /_/ /_/ /_/_/  |_/_/ |_/_/ |_|   /_/\____/\____/   ")
+                print("    __________  ____      ____  __    _____  _______   __________")
+                print("   / ____/ __ \/ __ \    / __ \/ /   /   \ \/ /  _/ | / / ____/ /")
+                print("  / /_  / / / / /_/ /   / /_/ / /   / /| |\  // //  |/ / / __/ / ")
+                print(" / __/ / /_/ / _, _/   / ____/ /___/ ___ |/ // // /|  / /_/ /_/  ")
+                print("/_/    \____/_/ |_|   /_/   /_____/_/  |_/_/___/_/ |_/\____(_)   ")
                 return
             else:
                 print("\nInvalid input! Please type 'yes' or 'no' only.\n")
