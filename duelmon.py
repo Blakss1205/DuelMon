@@ -33,25 +33,32 @@ def show_instructions():
 def choose_monster():
     print("Choose your Monster:")
     time.sleep(1)
-    print("[1] Charmander (Fire)")
-    print("[2] Squirtle (Water)")
-    print("[3] Bulbasaur (Grass)\n")
+    print("[1] Gapido (Firebender)")
+    print("[2] Evasco (Waterbender)")
+    print("[3] Illumin (Earthbender)")
+    print("[4] Gicalao (Airbender)\n")
 
-    # these are the stats of monsters
+    # monsters: name, type, HP, ATK, DEF, SPD, move1, type, power, PP, move2, type, power, PP
     data = {
-        "1": ["Charmander", "Fire", 39, 52, 43, 40,
-              "Scratch", "Normal", 40, 35,
-              "Ember", "Fire", 40, 25],
-        "2": ["Squirtle", "Water", 44, 48, 65, 40,
-              "Tackle", "Normal", 40, 35,
-              "Water Gun", "Water", 40, 25],
-        "3": ["Bulbasaur", "Grass", 45, 49, 49, 40,
-              "Tackle", "Normal", 40, 35,
-              "Vine Whip", "Grass", 45, 25],
+        "1": ["Gapido", "Firebender", 53, 42, 39, 36,
+              "Punch", "Normal", 40, 35,
+              "Blazing rings and arcs", "Fire", 45, 5],
+
+        "2": ["Evasco", "Waterbender", 55, 40, 42, 33,
+              "Kick", "Normal", 40, 35,
+              "Maelstrom", "Water", 45, 5],
+
+        "3": ["Illumin", "Earthbender", 56, 39, 43, 35,
+              "Headbutt", "Normal", 40, 35,
+              "Earthquake", "Earth", 45, 5],
+
+        "4": ["Gicalao", "Airbender", 51, 43, 39, 37,
+              "Kick", "Normal", 40, 35,
+              "Shockwave", "Air", 45, 5],
     }
 
     while True:
-        choice = input("Enter number (1-3): ")
+        choice = input("Enter number (1-4): ")
         if choice in data:
             (
                 p_name, p_type, p_hp, p_attack, p_defense, p_speed,
@@ -60,7 +67,7 @@ def choose_monster():
             ) = data[choice]
             break
         else:
-            print("\nInvalid choice! Please type 1, 2, or 3.\n")
+            print("\nInvalid choice! Please type 1, 2, 3 or 4.\n")
     
     player = [
         p_name, p_type, p_hp, p_attack, p_defense, p_speed,
@@ -76,15 +83,25 @@ def choose_monster():
 
 # CPU randomly select monster using random.choice()
 def cpu_choose():
-    cpu_list = ["Charmander", "Squirtle", "Bulbasaur"]
+    cpu_list = ["Gapido", "Evasco", "Illumin", "Gicalao"]
     choice = random.choice(cpu_list)
 
-    if choice == "Charmander":
-        return ["Charmander", "Fire", 39, 52, 43, 40, "Scratch", "Normal", 40, 35, "Ember", "Fire", 40, 25]
-    elif choice == "Squirtle":
-        return ["Squirtle", "Water", 44, 48, 65, 40, "Tackle", "Normal", 40, 35, "Water Gun", "Water", 40, 25]
+    if choice == "Gapido":
+        return ["Gapido", "Firebender", 53, 42, 39, 36,
+                "Punch", "Normal", 40, 35,
+                "Blazing rings and arcs", "Fire", 45, 5]
+    elif choice == "Evasco":
+        return ["Evasco", "Waterbender", 55, 40, 42, 33,
+                "Kick", "Normal", 40, 35,
+                "Maelstrom", "Water", 45, 5]
+    elif choice == "Illumin":
+        return ["Illumin", "Earthbender", 56, 39, 43, 35,
+                "Headbutt", "Normal", 40, 35,
+                "Earthquake", "Earth", 45, 5]
     else:
-        return ["Bulbasaur", "Grass", 45, 49, 49, 40, "Tackle", "Normal", 40, 35, "Vine Whip", "Grass", 45, 25]
+        return ["Gicalao", "Airbender", 51, 43, 39, 37,
+                "Kick", "Normal", 40, 35,
+                "Shockwave", "Air", 45, 5]
 
 # ---------------------------------------
 # Type Effectiveness
@@ -92,20 +109,25 @@ def cpu_choose():
 
     # damage multiplier
 def type_effect(move_type, target_type):
-    if move_type == "Fire" and target_type == "Grass":
+    if move_type == "Fire" and target_type == "Air":
         return 2
     elif move_type == "Water" and target_type == "Fire":
         return 2
-    elif move_type == "Grass" and target_type == "Water":
+    elif move_type == "Earth" and target_type == "Water":
+        return 2
+    elif move_type == "Air" and target_type == "Earth":
         return 2
     elif move_type == "Fire" and target_type == "Water":
         return 0.5
-    elif move_type == "Water" and target_type == "Grass":
+    elif move_type == "Water" and target_type == "Earth":
         return 0.5
-    elif move_type == "Grass" and target_type == "Fire":
+    elif move_type == "Earth" and target_type == "Air":
+        return 0.5
+    elif move_type == "Air" and target_type == "Fire":
         return 0.5
     else:
         return 1
+
 
 # ---------------------------------------
 # Damage Calculation
@@ -135,9 +157,9 @@ def dodgechance(speed):
 # ---------------------------------------
 
 def battle(player, cpu):
-    print("\nYou chose " + player[0] + "!")
+    print(f"\nYou chose {player[0]} ({player[1]})!")
     time.sleep(0.5)
-    print("CPU chose " + cpu[0] + "!\n")
+    print(f"CPU chose {cpu[0]} ({cpu[1]})!\n")
     time.sleep(0.5)
 
     # Player Stats to Variable
@@ -154,18 +176,29 @@ def battle(player, cpu):
     while p_hp > 0 and c_hp > 0:
         print(f"{p_name} (You) HP: {p_hp} | {c_name} (CPU) HP: {c_hp}\n")
 
-        # Turn-based combat
         if turn_order == "player":
             time.sleep(0.5)
             print("---------------- PLAYER TURN -----------------\n")
+            # Show move info with current PP
             print(f"[1] {p_m1_name} - {p_m1_type} Power: {p_m1_power} PP: {p_m1_pp}")
             print(f"[2] {p_m2_name} - {p_m2_type} Power: {p_m2_power} PP: {p_m2_pp}\n")
-            move_choice = input("Choose move (1 or 2): ").strip()
 
-            if move_choice == "1":
-                if p_m1_pp <= 0:
-                    print("\nNo PP left for that move!\n")
+            # Input validation loop
+            while True:
+                move_choice = input("Choose move (1 or 2): ").strip()
+                if move_choice not in ["1", "2"]:
+                    print("\nInvalid choice! Please enter 1 or 2.\n")
                     continue
+                if move_choice == "1" and p_m1_pp <= 0:
+                    print(f"\nNo PP left for {p_m1_name}! Choose another move.\n")
+                    continue
+                if move_choice == "2" and p_m2_pp <= 0:
+                    print(f"\nNo PP left for {p_m2_name}! Choose another move.\n")
+                    continue
+                break
+
+            # Apply move
+            if move_choice == "1":
                 p_m1_pp -= 1
                 multiplier = type_effect(p_m1_type, c_type)
                 dmg = calculate_damage(p_attack, c_defense, p_m1_power, multiplier)
@@ -183,10 +216,7 @@ def battle(player, cpu):
                         time.sleep(0.5)
                         print("It's not very effective...\n")
 
-            elif move_choice == "2":
-                if p_m2_pp <= 0:
-                    print("No PP left for that move!\n")
-                    continue
+            else:  # move_choice == "2"
                 p_m2_pp -= 1
                 multiplier = type_effect(p_m2_type, c_type)
                 dmg = calculate_damage(p_attack, c_defense, p_m2_power, multiplier)
@@ -197,16 +227,13 @@ def battle(player, cpu):
                     c_hp -= dmg
                     print(f"\n{p_name} (You) used {p_m2_name} and dealt {dmg} damage!\n")
                     if multiplier > 1:
-                        time.sleep(1)
+                        time.sleep(0.5)
                         print("It's super effective!\n")
+                        time.sleep(0.5)
                     elif multiplier < 1:
-                        time.sleep(1)
+                        time.sleep(0.5)
                         print("It's not very effective...\n")
 
-            else:
-                print("\nInvalid choice!\n")
-                continue
-    
             if c_hp <= 0:
                 print("==============================================")
                 print(f"      {c_name} (CPU) fainted! You win!       ")
@@ -214,10 +241,9 @@ def battle(player, cpu):
                 time.sleep(1)
                 break
 
-            turn_order = "cpu"  # After player's turn, switch to CPU's turn
+            turn_order = "cpu"
 
-        # CPU's turn
-        if turn_order == "cpu":
+        else:  # CPU turn
             time.sleep(1)
             print("------------------ CPU TURN ------------------\n")
             cpu_moves = []
@@ -225,7 +251,7 @@ def battle(player, cpu):
                 cpu_moves.append("1")
             if c_m2_pp > 0:
                 cpu_moves.append("2")
-            if not cpu_moves:  # CPU has no moves left
+            if not cpu_moves:
                 print(f"{c_name} has no moves left! You win!\n")
                 break
 
@@ -242,13 +268,14 @@ def battle(player, cpu):
                     p_hp -= dmg
                     print(f"{c_name} (CPU) used {c_m1_name} and dealt {dmg} damage!\n")
                     if multiplier > 1:
-                        time.sleep(1)
+                        time.sleep(0.5)
                         print("It's super effective!\n")
+                        time.sleep(0.5)
                     elif multiplier < 1:
-                        time.sleep(1)
+                        time.sleep(0.5)
                         print("It's not very effective...\n")
 
-            elif cpu_move == "2":
+            else:  # cpu_move == "2"
                 c_m2_pp -= 1
                 multiplier = type_effect(c_m2_type, p_type)
                 dmg = calculate_damage(c_attack, p_defense, c_m2_power, multiplier)
@@ -259,10 +286,11 @@ def battle(player, cpu):
                     p_hp -= dmg
                     print(f"{c_name} (CPU) used {c_m2_name} and dealt {dmg} damage!\n")
                     if multiplier > 1:
-                        time.sleep(1)
+                        time.sleep(0.5)
                         print("It's super effective!\n")
+                        time.sleep(0.5)
                     elif multiplier < 1:
-                        time.sleep(1)
+                        time.sleep(0.5)
                         print("It's not very effective...\n")
 
             if p_hp <= 0:
@@ -272,7 +300,7 @@ def battle(player, cpu):
                 time.sleep(1)
                 break
 
-            turn_order = "player"  # After CPU's turn, switch back to player's turn
+            turn_order = "player"
 
 # ---------------------------------------
 # Main Game Loop
