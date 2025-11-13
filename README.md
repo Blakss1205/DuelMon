@@ -12,7 +12,7 @@ Duelmon is a **turn-based monster battle simulator** played entirely through the
    - Any Python-capable IDE
 3. Run the main game file:
    ```bash
-   python main.py
+   python duelmon.py
 4. Follow the instructions displayed on screen.
 
 
