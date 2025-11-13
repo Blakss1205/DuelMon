@@ -42,19 +42,19 @@ def choose_monster():
     data = {
         "1": ["Gapido", "Firebender", 53, 42, 39, 36,
               "Punch", "Normal", 40, 35,
-              "Blazing rings and arcs", "Fire", 45, 5],
+              "Blazing rings and arcs", "Firebender", 45, 5],
 
         "2": ["Evasco", "Waterbender", 55, 40, 42, 33,
               "Kick", "Normal", 40, 35,
-              "Maelstrom", "Water", 45, 5],
+              "Maelstrom", "Waterbender", 45, 5],
 
         "3": ["Illumin", "Earthbender", 56, 39, 43, 35,
               "Headbutt", "Normal", 40, 35,
-              "Earthquake", "Earth", 45, 5],
+              "Earthquake", "Earthbender", 45, 5],
 
         "4": ["Gicalao", "Airbender", 51, 43, 39, 37,
               "Kick", "Normal", 40, 35,
-              "Shockwave", "Air", 45, 5],
+              "Shockwave", "Airbender", 45, 5],
     }
 
     while True:
@@ -89,19 +89,19 @@ def cpu_choose():
     if choice == "Gapido":
         return ["Gapido", "Firebender", 53, 42, 39, 36,
                 "Punch", "Normal", 40, 35,
-                "Blazing rings and arcs", "Fire", 45, 5]
+                "Blazing rings and arcs", "Firebender", 45, 5]
     elif choice == "Evasco":
         return ["Evasco", "Waterbender", 55, 40, 42, 33,
                 "Kick", "Normal", 40, 35,
-                "Maelstrom", "Water", 45, 5]
+                "Maelstrom", "Waterbender", 45, 5]
     elif choice == "Illumin":
         return ["Illumin", "Earthbender", 56, 39, 43, 35,
                 "Headbutt", "Normal", 40, 35,
-                "Earthquake", "Earth", 45, 5]
+                "Earthquake", "Earthbender", 45, 5]
     else:
         return ["Gicalao", "Airbender", 51, 43, 39, 37,
                 "Kick", "Normal", 40, 35,
-                "Shockwave", "Air", 45, 5]
+                "Shockwave", "Airbender", 45, 5]
 
 # ---------------------------------------
 # Type Effectiveness
@@ -109,25 +109,24 @@ def cpu_choose():
 
     # damage multiplier
 def type_effect(move_type, target_type):
-    if move_type == "Fire" and target_type == "Air":
+    if move_type == "Firebender" and target_type == "Airbender":
         return 2
-    elif move_type == "Water" and target_type == "Fire":
+    elif move_type == "Waterbender" and target_type == "Firebender":
         return 2
-    elif move_type == "Earth" and target_type == "Water":
+    elif move_type == "Earthbender" and target_type == "Waterbender":
         return 2
-    elif move_type == "Air" and target_type == "Earth":
+    elif move_type == "Airbender" and target_type == "Earthbender":
         return 2
-    elif move_type == "Fire" and target_type == "Water":
+    elif move_type == "Firebender" and target_type == "Waterbender":
         return 0.5
-    elif move_type == "Water" and target_type == "Earth":
+    elif move_type == "Waterbender" and target_type == "Earthbender":
         return 0.5
-    elif move_type == "Earth" and target_type == "Air":
+    elif move_type == "Earthbender" and target_type == "Airbender":
         return 0.5
-    elif move_type == "Air" and target_type == "Fire":
+    elif move_type == "Airbender" and target_type == "Firebender":
         return 0.5
     else:
         return 1
-
 
 # ---------------------------------------
 # Damage Calculation
@@ -246,16 +245,26 @@ def battle(player, cpu):
         else:  # CPU turn
             time.sleep(1)
             print("------------------ CPU TURN ------------------\n")
-            cpu_moves = []
-            if c_m1_pp > 0:
-                cpu_moves.append("1")
-            if c_m2_pp > 0:
-                cpu_moves.append("2")
-            if not cpu_moves:
-                print(f"{c_name} has no moves left! You win!\n")
-                break
-
-            cpu_move = random.choice(cpu_moves)
+            if c_m1_pp > 0 and c_m2_pp > 0:
+                #effectiveness comparison
+                eff1 = type_effect(c_m1_type, p_type)
+                eff2 = type_effect(c_m2_type, p_type)
+                
+                if eff1 > eff2:
+                    cpu_move = "1"
+                elif eff1 < eff2:
+                    cpu_move = "2"
+                else:
+                    cpu_move = random.choice(["1", "2"])
+            else:
+                # If one move has no PP, use the other
+                if c_m1_pp > 0:
+                    cpu_move = "1"
+                elif c_m2_pp > 0:
+                    cpu_move = "2"
+                else:
+                    print(f"{c_name} has no moves left! You win!\n")
+                    break
 
             if cpu_move == "1":
                 c_m1_pp -= 1
