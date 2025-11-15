@@ -5,9 +5,11 @@ import os
 # clear whole screen after playing again to look more clean
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
+
 # ----------- #
 # Instruction #
 # ----------- #
+
 def show_instructions():
     print("__        _______ _     ____ ___  __  __ _____    _____ ___  ")
     print("\ \      / / ____| |   / ___/ _ \|  \/  | ____|  |_   _/ _ \ ")
@@ -29,7 +31,8 @@ def show_instructions():
 
 # -------------- #
 # Monster Select #
-# -------------- #   
+# -------------- #
+
 def choose_monster():
     print("Choose your Monster:")
     time.sleep(1)
@@ -77,9 +80,9 @@ def choose_monster():
 
     return player
 
-# ---------------------------------------
-# CPU Random Monster Select
-# ---------------------------------------
+# ------------------------- #
+# CPU Random Monster Select #
+# ------------------------- #
 
 # CPU randomly select monster using random.choice()
 def cpu_choose():
@@ -103,11 +106,11 @@ def cpu_choose():
                 "Kick", "Normal", 40, 35,
                 "Shockwave", "Airbender", 45, 5]
 
-# ---------------------------------------
-# Type Effectiveness
-# ---------------------------------------
+# ------------------ #
+# Type Effectiveness #
+# ------------------ #
 
-    # damage multiplier
+# damage multiplier
 def type_effect(move_type, target_type):
     if move_type == "Firebender" and target_type == "Airbender":
         return 2
@@ -128,9 +131,9 @@ def type_effect(move_type, target_type):
     else:
         return 1
 
-# ---------------------------------------
-# Damage Calculation
-# ---------------------------------------
+# ------------------ #
+# Damage Calculation #
+# ------------------ #
 
 def calculate_damage(attack, defense, power, multiplier):
     base = ((attack / defense) * power) / 5 + 2
@@ -139,9 +142,9 @@ def calculate_damage(attack, defense, power, multiplier):
         total = 1
     return total
 
-# ---------------------------------------
-# Dodge Mechanic
-# ---------------------------------------
+# -------------- #
+# Dodge Mechanic #
+# -------------- #
 
 def dodgechance(speed):
     decider = random.randint(1, 100)  # Random number between 1 and 100
@@ -150,10 +153,9 @@ def dodgechance(speed):
     else:
         return False
 
-
-# ---------------------------------------
-# Battle
-# ---------------------------------------
+# ------ #
+# Battle #
+# ------ #
 
 def battle(player, cpu):
     print(f"\nYou chose {player[0]} ({player[1]})!")
@@ -162,10 +164,14 @@ def battle(player, cpu):
     time.sleep(0.5)
 
     # Player Stats to Variable
-    p_name, p_type, p_hp, p_attack, p_defense, p_speed, p_m1_name, p_m1_type, p_m1_power, p_m1_pp, p_m2_name, p_m2_type, p_m2_power, p_m2_pp = player
+    (p_name, p_type, p_hp, p_attack, p_defense, p_speed, 
+     p_m1_name, p_m1_type, p_m1_power, p_m1_pp, 
+     p_m2_name, p_m2_type, p_m2_power, p_m2_pp) = player
 
     # CPU Stats to Variable
-    c_name, c_type, c_hp, c_attack, c_defense, c_speed, c_m1_name, c_m1_type, c_m1_power, c_m1_pp, c_m2_name, c_m2_type, c_m2_power, c_m2_pp = cpu
+    (c_name, c_type, c_hp, c_attack, c_defense, c_speed, 
+     c_m1_name, c_m1_type, c_m1_power, c_m1_pp, 
+     c_m2_name, c_m2_type, c_m2_power, c_m2_pp) = cpu
 
     # Determine who goes first based on speed
     turn_order = "player" if p_speed >= c_speed else "cpu"
@@ -263,7 +269,7 @@ def battle(player, cpu):
                 elif c_m2_pp > 0:
                     cpu_move = "2"
                 else:
-                    print(f"{c_name} has no moves left! You win!\n")
+                    print(f"{c_name} (CPU) has no moves left! You win!\n")
                     break
 
             if cpu_move == "1":
@@ -311,9 +317,10 @@ def battle(player, cpu):
 
             turn_order = "player"
 
-# ---------------------------------------
-# Main Game Loop
-# ---------------------------------------
+# -------------- #
+# Main Game Loop #
+# -------------- #
+
 def main():
     clear_screen()
     show_instructions()
@@ -348,7 +355,8 @@ def main():
             else:
                 print("\nInvalid input! Please type 'yes' or 'no' only.\n")
 
-# ---------------------------------------
-# Run the game
-# ---------------------------------------
+# ------------ #
+# Run the game #
+# ------------ #
+
 main()
