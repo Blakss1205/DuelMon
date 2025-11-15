@@ -15,8 +15,6 @@ Duelmon is a **turn-based monster battle simulator** played entirely through the
    python duelmon.py
 4. Follow the instructions displayed on screen.
 
-
-
 ## Member Contributions
 Ilumin, Mark Benedict D.
    Handled game testing, identified bugs, and coded the main function that runs the overall program.
